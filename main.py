@@ -66,11 +66,11 @@ if os.path.exists("csvFile.csv"):
     os.remove("csvFile.csv")
 
 csvFile = open("csvFile.csv", 'w+')
-csvFile.write("year,totals,car,sea,train,airplane,bestCountry,Q1,Q2,Q3,Q4\n")
+csvFile.write('year,totals,car,sea,train,airplane,"bestCountry",Q1,Q2,Q3,Q4\n')
 
 
 #fetch only the files needed to pass to db
-for x in range(2011, 2016):
+for x in range(2011, 2015):
     #we really only need to get Q4 xls files, as they have info on every month. Link is in form https://www.statistics.gr/el/statistics/-/publication/STO04/YYYY-Q4
     newURL = URL.replace('2011', str(x))
     u = urlopen(newURL)
@@ -114,7 +114,6 @@ for x in range(2011, 2016):
                 # By looking case #1 for sheets 3, 6, 9, 12 (2, 5, 8, 11 respectively)
                 # we can find arrivals per quarter
                 book = xlrd.open_workbook(xlsfile, on_demand=True,encoding_override="cp1252")
-                #for num in (0,len(book.sheet_names())-1):
                 sheet = book.get_sheet(11)
                 totalQ1 = findTotal(book.get_sheet(2), 6)
                 totalQ2 = findTotal(book.get_sheet(5), 6) - totalQ1
@@ -146,25 +145,21 @@ for x in range(2011, 2016):
 fig = plt.figure()
 fig.canvas.set_window_title('Plots')
 
-ax1 = fig.add_subplot(321)
+ax1 = fig.add_subplot(221)
 ax1.plot(years, totals)
 ax1.set_title('Total tourists')
 
-ax2 = fig.add_subplot(322)
+ax2 = fig.add_subplot(222)
 ax2.plot(years, Q1)
 ax2.set_title('Tourists at First Quarter')
 
-ax3 = fig.add_subplot(323)
+ax3 = fig.add_subplot(223)
 ax3.plot(years, Q2)
 ax3.set_title('Tourists at Second Quarter')
 
-ax4 = fig.add_subplot(324)
+ax4 = fig.add_subplot(224)
 ax4.plot(years, Q3)
 ax4.set_title('Tourists at Third Quarter')
-
-ax5 = fig.add_subplot(325)
-ax5.plot(years, Q4)
-ax5.set_title('Tourists at Fourth Quarter')
 
 fig1 = plt.figure()
 fig1.canvas.set_window_title('Pies')
@@ -173,7 +168,6 @@ sizes0 = [car[0], sea[0], train[0], airplane[0]]
 sizes1 = [car[1], sea[1], train[1], airplane[1]]
 sizes2 = [car[2], sea[2], train[2], airplane[2]]
 sizes3 = [car[3], sea[3], train[3], airplane[3]]
-sizes4 = [car[4], sea[4], train[4], airplane[4]]
 ax0 = fig1.add_subplot(321)
 ax0.set_title('2011')
 ax0.pie(sizes0, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
@@ -186,14 +180,10 @@ ax2.pie(sizes2, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
 ax3 = fig1.add_subplot(324)
 ax3.set_title('2014')
 ax3.pie(sizes3, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
-ax4 = fig1.add_subplot(325)
-ax4.set_title('2015')
-ax4.pie(sizes4, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
 ax0.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 ax1.axis('equal')
 ax2.axis('equal')
 ax3.axis('equal')
-ax4.axis('equal')
 plt.show()
 
 db_cursor.close()
