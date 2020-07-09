@@ -140,6 +140,7 @@ for x in range(2011, 2015):
                 insert_set = (preinsert_set)
                 db_cursor.execute(insert_query, insert_set)
                 db_connection.commit()
+csvFile.close()
 
 
 fig = plt.figure()
@@ -170,21 +171,26 @@ sizes2 = [car[2], sea[2], train[2], airplane[2]]
 sizes3 = [car[3], sea[3], train[3], airplane[3]]
 ax0 = fig1.add_subplot(321)
 ax0.set_title('2011')
-ax0.pie(sizes0, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+ax0.pie(sizes0, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, textprops={'size': 'smaller'})
 ax1 = fig1.add_subplot(322)
 ax1.set_title('2012')
-ax1.pie(sizes1, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+ax1.pie(sizes1, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, textprops={'size': 'smaller'})
 ax2 = fig1.add_subplot(323)
 ax2.set_title('2013')
-ax2.pie(sizes2, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+ax2.pie(sizes2, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, textprops={'size': 'smaller'})
 ax3 = fig1.add_subplot(324)
 ax3.set_title('2014')
-ax3.pie(sizes3, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+ax3.pie(sizes3, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, textprops={'size': 'smaller'})
 ax0.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 ax1.axis('equal')
 ax2.axis('equal')
 ax3.axis('equal')
+fig1.tight_layout()
+fig.tight_layout()
+fig1.savefig('./Pies.png')
+fig.savefig('./Plots.png')
 plt.show()
+
 
 db_cursor.close()
 db_connection.close()
